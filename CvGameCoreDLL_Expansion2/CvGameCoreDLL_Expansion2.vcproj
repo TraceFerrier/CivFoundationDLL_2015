@@ -1494,6 +1494,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CvMissionMods.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CvModUtils.cpp"
 				>
 			</File>

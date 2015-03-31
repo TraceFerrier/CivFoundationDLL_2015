@@ -340,6 +340,15 @@ public:
 	int getTradeGold(const CvPlot* pPlot) const;
 	int getTradeInfluence(const CvPlot* pPlot) const;
 	bool canTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
+
+	// FoundationMod
+	bool IsTradingModActive() const;
+	bool canModTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
+	bool IsInCapitalCity() const;
+	void DoModUnitMoved();
+	bool ShouldKillAfterTrade();
+	bool m_bTraderSuppliesLoaded;
+
 	bool trade();
 
 	bool canBuyCityState(const CvPlot* pPlot, bool bTestVisible = false) const;
