@@ -1,2 +1,2 @@
-BuildTemp\*
-BuildOutput\*
+BuildTemp/*
+BuildOutput/*
