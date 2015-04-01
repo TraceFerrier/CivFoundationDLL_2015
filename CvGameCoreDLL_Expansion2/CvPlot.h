@@ -696,6 +696,10 @@ public:
 	void SetArtifactGreatWork(GreatWorkType eWork);
 	bool HasWrittenArtifact() const;
 
+	// FoundationMod
+	int getTraderSuppliesAvailable() const;
+	void addTraderSupplies(int iSupplies);
+
 protected:
 	class PlotBoolField
 	{
@@ -768,6 +772,10 @@ protected:
 	char* m_aiPlayerCityRadiusCount;
 	short* m_aiVisibilityCount;
 	char* m_aiRevealedOwner;
+
+	// FoundationMod
+	int m_iTraderSuppliesAvailable;
+
 	//bool *m_abRevealed;
 
 	short /*ImprovementTypes*/ *m_aeRevealedImprovementType;

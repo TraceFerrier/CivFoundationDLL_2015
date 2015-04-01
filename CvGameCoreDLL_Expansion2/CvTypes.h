@@ -71,6 +71,11 @@ const MissionTypes getMISSION_SELL_EXOTIC_GOODS();
 const MissionTypes getMISSION_GIVE_POLICIES();
 const MissionTypes getMISSION_ONE_SHOT_TOURISM();
 const MissionTypes getMISSION_CHANGE_ADMIRAL_PORT();
+
+// FoundationMod
+const MissionTypes getMISSION_FOUNDATION_TRADE();
+const MissionTypes getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP();
+
 const unsigned int getNUM_MISSION_TYPES();
 
 const GreatWorkArtifactClass getARTIFACT_ANCIENT_RUIN();

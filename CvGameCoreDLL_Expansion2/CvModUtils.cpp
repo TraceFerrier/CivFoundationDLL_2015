@@ -1,9 +1,21 @@
 #include "CvGameCoreDLLPCH.h"
 #include "CvModUtils.h"
 
+static CivilizationTypes eFoundationType = NO_CIVILIZATION;
+
+CivilizationTypes GetFoundationCivilizationType()
+{
+	if (eFoundationType == NO_CIVILIZATION)
+	{
+		eFoundationType = (CivilizationTypes)GC.getInfoTypeForString("CIVILIZATION_FOUNDATION");
+	}
+
+	return eFoundationType;
+}
+
 bool IsFoundationCivilizationActiveAndHuman()
 {
-	CivilizationTypes eFoundationType = (CivilizationTypes)GC.getInfoTypeForString("CIVILIZATION_FOUNDATION");
+	CivilizationTypes eFoundationType = GetFoundationCivilizationType();
 	if (eFoundationType == NO_CIVILIZATION)
 	{
 		return false;

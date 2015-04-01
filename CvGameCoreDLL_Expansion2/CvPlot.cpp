@@ -218,6 +218,9 @@ void CvPlot::reset(int iX, int iY, bool bConstructorCall)
 	m_iResourceNum = 0;
 	m_cContinentType = 0;
 
+	// FoundationMod
+	m_iTraderSuppliesAvailable = 0;
+
 	m_uiTradeRouteBitFlags = 0;
 
 	m_bStartingPlot = false;
@@ -4333,7 +4336,6 @@ int CvPlot::getUpgradeProgress() const
 {
 	return m_iUpgradeProgress;
 }
-
 
 //	--------------------------------------------------------------------------------
 int CvPlot::getUpgradeTimeLeft(ImprovementTypes eImprovement, PlayerTypes ePlayer) const
@@ -9564,6 +9566,9 @@ void CvPlot::read(FDataStream& kStream)
 	kStream >> m_cContinentType;
 	kStream >> m_kArchaeologyData;
 
+	// FoundationMod
+	kStream >> m_iTraderSuppliesAvailable;
+
 	updateImpassable();
 }
 
@@ -9715,6 +9720,9 @@ void CvPlot::write(FDataStream& kStream) const
 
 	kStream << m_cContinentType;
 	kStream << m_kArchaeologyData;
+
+	// FoundationMod
+	kStream << m_iTraderSuppliesAvailable;
 }
 
 //	--------------------------------------------------------------------------------

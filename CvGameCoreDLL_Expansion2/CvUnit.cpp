@@ -312,7 +312,7 @@ CvUnit::CvUnit() :
 	, m_iMapLayer(DEFAULT_UNIT_MAP_LAYER)
 	, m_iNumGoodyHutsPopped(0)
 	, m_iLastGameTurnAtFullHealth(-1)
-	, m_bTraderSuppliesLoaded(true)
+	, m_iTraderSuppliesLoaded(0)
 {
 	initPromotions();
 	OBJECT_ALLOCATED
@@ -723,7 +723,7 @@ void CvUnit::reset(int iID, UnitTypes eUnit, PlayerTypes eOwner, bool bConstruct
 	archive.reset();
 
 	// FoundationMod
-	m_bTraderSuppliesLoaded = true;
+	m_iTraderSuppliesLoaded = 0;
 
 	m_iID = iID;
 	m_iHotKeyNumber = -1;
@@ -7728,11 +7728,6 @@ bool CvUnit::canTrade(const CvPlot* pPlot, bool bTestVisible) const
 		return false;
 	}
 
-	if (IsTradingModActive())
-	{
-		return canModTrade(pPlot, bTestVisible);
-	}
-
 	if(m_pUnitInfo->GetBaseGold() == 0)
 	{
 		return false;
@@ -7795,10 +7790,7 @@ bool CvUnit::trade()
 		kPlayer.DoGreatPersonExpended(getUnitType());
 	}
 
-	if (ShouldKillAfterTrade())
-	{
-		kill(true);
-	}
+	kill(true);
 
 	return true;
 }
@@ -13656,7 +13648,7 @@ void CvUnit::setXY(int iX, int iY, bool bGroup, bool bUpdate, bool bShow, bool b
 	}
 
 	// FoundationMod
-	DoModUnitMoved();
+	// DoModUnitMoved();
 
 	ICvEngineScriptSystem1* pkScriptSystem = gDLL->GetScriptSystem();
 	if(pkScriptSystem)
@@ -17882,7 +17874,7 @@ void CvUnit::read(FDataStream& kStream)
 	}
 
 	// FoundationMod
-	kStream >> m_bTraderSuppliesLoaded;
+	kStream >> m_iTraderSuppliesLoaded;
 
 }
 
@@ -17991,7 +17983,7 @@ void CvUnit::write(FDataStream& kStream) const
 	}
 
 	// FoundationMod
-	kStream << m_bTraderSuppliesLoaded;
+	kStream << m_iTraderSuppliesLoaded;
 }
 
 //	--------------------------------------------------------------------------------

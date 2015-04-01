@@ -76,6 +76,8 @@ public:
 	// FoundationMod
 	bool m_isFoundationModInitialized;
 	void PlayerDoModTurn();
+	void ApplySecondFoundationEffects();
+	void UpdateFoundationImprovements();
 
 	void init(PlayerTypes eID);
 	void setupGraphical();

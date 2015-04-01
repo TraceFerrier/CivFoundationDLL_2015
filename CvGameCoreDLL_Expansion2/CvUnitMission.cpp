@@ -1073,6 +1073,20 @@ bool CvUnitMission::CanStartMission(UnitHandle hUnit, int iMission, int iData1, 
 			return true;
 		}
 	}
+	else if(iMission == CvTypes::getMISSION_FOUNDATION_TRADE())
+	{
+		if(hUnit->canDoFoundationTrade(pPlot, bTestVisible))
+		{
+			return true;
+		}
+	}
+	else if(iMission == CvTypes::getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP())
+	{
+		if(hUnit->canDoSupplyPickup(pPlot, bTestVisible))
+		{
+			return true;
+		}
+	}
 	else if(iMission == CvTypes::getMISSION_REPAIR_FLEET())
 	{
 		if(hUnit->canRepairFleet(pPlot, bTestVisible))
@@ -1487,6 +1501,23 @@ void CvUnitMission::StartMission(UnitHandle hUnit)
 					bAction = true;
 				}
 			}
+
+			// FoundationMod
+			else if(pkQueueData->eMissionType == CvTypes::getMISSION_FOUNDATION_TRADE())
+			{
+				if(hUnit->DoFoundationTrade())
+				{
+					bAction = true;
+				}
+			}
+			else if(pkQueueData->eMissionType == CvTypes::getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP())
+			{
+				if(hUnit->DoPickUpTraderSupplies())
+				{
+					bAction = true;
+				}
+			}
+
 
 			else if (pkQueueData->eMissionType == CvTypes::getMISSION_BUY_CITY_STATE())
 			{

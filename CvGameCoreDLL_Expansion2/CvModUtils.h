@@ -12,3 +12,4 @@ enum ModHandicapTypes
 };
 
 ModHandicapTypes GetHandicapType();
+CivilizationTypes GetFoundationCivilizationType();

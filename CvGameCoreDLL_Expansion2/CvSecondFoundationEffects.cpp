@@ -395,11 +395,17 @@ void FindUnitsInRangeOfSecondFoundationerAndApplyEffects(const CvUnit* pSecondFo
 	}
 }
 
+void CvPlayer::PlayerDoModTurn()
+{
+	ApplySecondFoundationEffects();
+	UpdateFoundationImprovements();
+}
+
 //------------------------------------------------------------------------
 //   PlayerDoModTurn - this will be called at the end of the AI portion
 // of every player's turn.
 //------------------------------------------------------------------------
-void CvPlayer::PlayerDoModTurn()
+void CvPlayer::ApplySecondFoundationEffects()
 {
 	if (m_isFoundationModInitialized == false)
 	{

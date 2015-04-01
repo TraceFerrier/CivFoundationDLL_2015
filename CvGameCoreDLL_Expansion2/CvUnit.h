@@ -342,12 +342,15 @@ public:
 	bool canTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 
 	// FoundationMod
+	bool canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool IsTradingModActive() const;
-	bool canModTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
+	bool canDoFoundationTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool IsInCapitalCity() const;
-	void DoModUnitMoved();
-	bool ShouldKillAfterTrade();
-	bool m_bTraderSuppliesLoaded;
+	bool DoFoundationTrade();
+	bool DoPickUpTraderSupplies();
+	int getFoundationTradeGold(const CvPlot* /*pPlot*/) const;
+	int getFoundationTradeInfluence(const CvPlot* pPlot) const;
+	int m_iTraderSuppliesLoaded;
 
 	bool trade();
 

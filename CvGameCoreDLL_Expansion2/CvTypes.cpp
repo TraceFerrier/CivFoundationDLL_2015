@@ -82,6 +82,11 @@ MissionTypes s_eMISSION_SELL_EXOTIC_GOODS = NO_MISSION;
 MissionTypes s_eMISSION_GIVE_POLICIES = NO_MISSION;
 MissionTypes s_eMISSION_ONE_SHOT_TOURISM = NO_MISSION;
 MissionTypes s_eMISSION_CHANGE_ADMIRAL_PORT = NO_MISSION;
+
+// FoundationMod
+MissionTypes s_eMISSION_FOUNDATION_TRADE = NO_MISSION;
+MissionTypes s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP = NO_MISSION;
+
 unsigned int s_uiNUM_MISSION_TYPES = 0;
 
 void CvTypes::AcquireTypes(Database::Connection& db)
@@ -222,6 +227,10 @@ void CvTypes::AcquireTypes(Database::Connection& db)
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_GIVE_POLICIES"), &s_eMISSION_GIVE_POLICIES));
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_ONE_SHOT_TOURISM"), &s_eMISSION_ONE_SHOT_TOURISM));
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_CHANGE_ADMIRAL_PORT"), &s_eMISSION_CHANGE_ADMIRAL_PORT));
+
+		// FoundationMod
+		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_FOUNDATION_TRADE"), &s_eMISSION_FOUNDATION_TRADE));
+		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP"), &s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP));
 
 		Database::Results kResults;
 		if(db.Execute(kResults, "SELECT Type, ID from Missions"))
@@ -546,4 +555,15 @@ const MissionTypes CvTypes::getMISSION_ONE_SHOT_TOURISM()
 {
 	return s_eMISSION_ONE_SHOT_TOURISM;
 }
+
+// FoundationMod
+const MissionTypes CvTypes::getMISSION_FOUNDATION_TRADE()
+{
+	return s_eMISSION_FOUNDATION_TRADE;
+}
+const MissionTypes CvTypes::getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP()
+{
+	return s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP;
+}
+
 //-------------------------------------------------------------------------
