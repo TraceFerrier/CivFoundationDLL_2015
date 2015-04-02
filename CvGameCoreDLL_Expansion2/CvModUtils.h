@@ -11,5 +11,8 @@ enum ModHandicapTypes
 	eDeity,
 };
 
+const int TradingSuppliesPerTurn = 3;
+
 ModHandicapTypes GetHandicapType();
 CivilizationTypes GetFoundationCivilizationType();
+ImprovementTypes GetFoundationCustomsHouseType();

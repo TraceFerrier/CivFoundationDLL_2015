@@ -6164,6 +6164,10 @@ void CvPlot::SetImprovementPillaged(bool bPillaged)
 	if(bPillaged != bWasPillaged)
 	{
 		m_bImprovementPillaged = bPillaged;
+
+		// FoundationMod
+		setTraderSupplies(0);
+
 		updateYield();
 
 		// Quantified Resource changes

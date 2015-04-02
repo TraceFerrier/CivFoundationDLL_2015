@@ -341,13 +341,15 @@ public:
 	int getTradeInfluence(const CvPlot* pPlot) const;
 	bool canTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 
-	// FoundationMod
+	// FoundationMod 
+	bool canDoSupplyReport(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool IsTradingModActive() const;
 	bool canDoFoundationTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool IsInCapitalCity() const;
 	bool DoFoundationTrade();
 	bool DoPickUpTraderSupplies();
+	bool DoTraderSupplyReport();
 	int getFoundationTradeGold(const CvPlot* /*pPlot*/) const;
 	int getFoundationTradeInfluence(const CvPlot* pPlot) const;
 	int m_iTraderSuppliesLoaded;

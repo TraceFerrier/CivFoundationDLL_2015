@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc"
-				Optimization="3"
+				Optimization="0"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				OmitFramePointers="true"
@@ -1506,6 +1506,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CvPlayerMods.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CvPromotionMods.cpp"
 				>
 			</File>
@@ -1519,6 +1523,10 @@
 			</File>
 			<File
 				RelativePath=".\CvTraitMods.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CvUnitMods.cpp"
 				>
 			</File>
 		</Filter>

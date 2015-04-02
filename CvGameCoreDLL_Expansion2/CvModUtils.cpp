@@ -2,6 +2,7 @@
 #include "CvModUtils.h"
 
 static CivilizationTypes eFoundationType = NO_CIVILIZATION;
+static ImprovementTypes eFoundationCustomsHouseType = NO_IMPROVEMENT;
 
 CivilizationTypes GetFoundationCivilizationType()
 {
@@ -11,6 +12,17 @@ CivilizationTypes GetFoundationCivilizationType()
 	}
 
 	return eFoundationType;
+}
+
+
+ImprovementTypes GetFoundationCustomsHouseType()
+{
+	if (eFoundationCustomsHouseType == NO_IMPROVEMENT)
+	{
+		eFoundationCustomsHouseType = (ImprovementTypes)GC.getInfoTypeForString("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE");
+	}
+
+	return eFoundationCustomsHouseType;
 }
 
 bool IsFoundationCivilizationActiveAndHuman()

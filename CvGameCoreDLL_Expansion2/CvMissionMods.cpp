@@ -4,11 +4,9 @@
 #include "CvMinorCivAI.h"
 #include "CvModUtils.h"
 
-const int MaxTradingSuppliesCarried = 20;
-const int MaxTradingSuppliesAtDepot = 35;
-const int TradingSuppliesPerTurn = 2;
+const int MaxTradingSuppliesCarried = 25;
+const int MaxTradingSuppliesAtDepot = 50;
 
-static ImprovementTypes eFoundationCustomsHouseType = NO_IMPROVEMENT;
 
 bool CvUnit::IsTradingModActive() const
 {
@@ -24,14 +22,14 @@ bool CvUnit::IsTradingModActive() const
 	return false;
 }
 
-ImprovementTypes GetFoundationCustomsHouseType()
+bool CvUnit::canDoSupplyReport(const CvPlot* pPlot, bool bTestVisible) const
 {
-	if (eFoundationCustomsHouseType == NO_IMPROVEMENT)
+	if (IsTradingModActive() == false)
 	{
-		eFoundationCustomsHouseType = (ImprovementTypes)GC.getInfoTypeForString("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE");
+		return false;
 	}
 
-	return eFoundationCustomsHouseType;
+	return true;
 }
 
 bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible) const
@@ -56,7 +54,7 @@ bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible) const
 			return false;
 		}
 
-		if (pPlot->getTraderSuppliesAvailable() == 0)
+		if (pPlot->getTraderSuppliesAvailable() <= 0)
 		{
 			return false;
 		}
@@ -68,11 +66,6 @@ bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible) const
 bool CvUnit::canDoFoundationTrade(const CvPlot* pPlot, bool bTestVisible) const
 {
 	if (IsTradingModActive() == false)
-	{
-		return false;
-	}
-
-	if(m_pUnitInfo->GetBaseGold() == 0)
 	{
 		return false;
 	}
@@ -103,6 +96,31 @@ bool CvUnit::canDoFoundationTrade(const CvPlot* pPlot, bool bTestVisible) const
 }
 
 
+bool CvUnit::DoTraderSupplyReport()
+{
+	VALIDATE_OBJECT
+
+	CvPlot* pPlot = plot();
+
+	if (!canDoSupplyReport(pPlot))
+	{
+		return false;
+	}
+
+	if(getOwner() == GC.getGame().getActivePlayer())
+	{
+		if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
+		{
+			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_DEPOT_REPORT", m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried, pPlot->getTraderSuppliesAvailable()));
+		}
+		else
+		{
+			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_REPORT", m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried));
+		}
+	}
+
+	return true;
+}
 
 
 bool CvUnit::DoPickUpTraderSupplies()
@@ -124,6 +142,11 @@ bool CvUnit::DoPickUpTraderSupplies()
 
 	m_iTraderSuppliesLoaded += iSuppliesToLoad;
 	pPlot->addTraderSupplies(-iSuppliesToLoad);
+
+	if(getOwner() == GC.getGame().getActivePlayer())
+	{
+		DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_DEPOT_SUPPLY_PICKUP_RESULT", iSuppliesToLoad, m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried));
+	}
 
 	return true;
 }
@@ -187,7 +210,7 @@ int CvUnit::getFoundationTradeInfluence(const CvPlot* pPlot) const
 {
 	VALIDATE_OBJECT
 	int iInf = 0;
-	if (pPlot && canTrade(pPlot))
+	if (pPlot && canDoFoundationTrade(pPlot))
 	{
 		PlayerTypes eMinor = pPlot->getOwner();
 		CvAssertMsg(eMinor != NO_PLAYER, "Performing a trade mission and not in city state territory. This is bad. Please send Jon this with your last 5 autosaves and what changelist # you're playing.");
@@ -208,60 +231,26 @@ int CvPlot::getTraderSuppliesAvailable() const
 	return m_iTraderSuppliesAvailable;
 }
 
+void CvPlot::setTraderSupplies(int iSupplies)
+{
+	m_iTraderSuppliesAvailable = iSupplies;
+}
+
 void CvPlot::addTraderSupplies(int iSupplies)
 {
-	m_iTraderSuppliesAvailable += iSupplies;
-	if (m_iTraderSuppliesAvailable < 0)
+	if (!IsImprovementPillaged())
 	{
-		m_iTraderSuppliesAvailable = 0;
-	}
-
-	if (m_iTraderSuppliesAvailable > MaxTradingSuppliesAtDepot)
-	{
-		m_iTraderSuppliesAvailable = MaxTradingSuppliesAtDepot;
-	}
-
-}
-
-bool CvUnit::IsInCapitalCity() const
-{
-	CvPlot* pPlot = plot();
-	if (pPlot != NULL)
-	{
-		if (pPlot->isFriendlyCity(*this, false) == false)
+		m_iTraderSuppliesAvailable += iSupplies;
+		if (m_iTraderSuppliesAvailable < 0)
 		{
-			return false;
+			m_iTraderSuppliesAvailable = 0;
 		}
 
-		CvCity* pCity = pPlot->getPlotCity();
-		if (pCity)
+		if (m_iTraderSuppliesAvailable > MaxTradingSuppliesAtDepot)
 		{
-			return pCity->isCapital();
+			m_iTraderSuppliesAvailable = MaxTradingSuppliesAtDepot;
 		}
 	}
-
-	return false;
 }
 
 
-
-void CvPlayer::UpdateFoundationImprovements()
-{
-	if (getCivilizationType() == GetFoundationCivilizationType())
-	{
-		// Loop through all plots
-		const CvPlotsVector& aiPlots = GetPlots();
-		for (uint uiPlotIndex = 0; uiPlotIndex < aiPlots.size(); uiPlotIndex++)
-		{
-			if (aiPlots[uiPlotIndex] == -1)
-				continue;
-
-			CvPlot* pPlot = GC.getMap().plotByIndex(aiPlots[uiPlotIndex]);
-			if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
-			{
-				pPlot->addTraderSupplies(TradingSuppliesPerTurn);
-			}
-		}
-	}
-
-}

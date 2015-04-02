@@ -86,7 +86,7 @@ MissionTypes s_eMISSION_CHANGE_ADMIRAL_PORT = NO_MISSION;
 // FoundationMod
 MissionTypes s_eMISSION_FOUNDATION_TRADE = NO_MISSION;
 MissionTypes s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP = NO_MISSION;
-
+MissionTypes s_eMISSION_FOUNDATION_TRADE_SUPPLY_REPORT = NO_MISSION;
 unsigned int s_uiNUM_MISSION_TYPES = 0;
 
 void CvTypes::AcquireTypes(Database::Connection& db)
@@ -231,6 +231,7 @@ void CvTypes::AcquireTypes(Database::Connection& db)
 		// FoundationMod
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_FOUNDATION_TRADE"), &s_eMISSION_FOUNDATION_TRADE));
 		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP"), &s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP));
+		kMissionTypesLookupTable.insert(make_pair(std::string("MISSION_FOUNDATION_TRADE_SUPPLY_REPORT"), &s_eMISSION_FOUNDATION_TRADE_SUPPLY_REPORT));
 
 		Database::Results kResults;
 		if(db.Execute(kResults, "SELECT Type, ID from Missions"))
@@ -564,6 +565,10 @@ const MissionTypes CvTypes::getMISSION_FOUNDATION_TRADE()
 const MissionTypes CvTypes::getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP()
 {
 	return s_eMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP;
+}
+const MissionTypes CvTypes::getMISSION_FOUNDATION_TRADE_SUPPLY_REPORT()
+{
+	return s_eMISSION_FOUNDATION_TRADE_SUPPLY_REPORT;
 }
 
 //-------------------------------------------------------------------------

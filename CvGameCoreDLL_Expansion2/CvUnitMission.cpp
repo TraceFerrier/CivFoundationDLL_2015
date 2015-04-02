@@ -1087,6 +1087,13 @@ bool CvUnitMission::CanStartMission(UnitHandle hUnit, int iMission, int iData1, 
 			return true;
 		}
 	}
+	else if(iMission == CvTypes::getMISSION_FOUNDATION_TRADE_SUPPLY_REPORT())
+	{
+		if(hUnit->canDoSupplyReport(pPlot, bTestVisible))
+		{
+			return true;
+		}
+	}
 	else if(iMission == CvTypes::getMISSION_REPAIR_FLEET())
 	{
 		if(hUnit->canRepairFleet(pPlot, bTestVisible))
@@ -1507,14 +1514,29 @@ void CvUnitMission::StartMission(UnitHandle hUnit)
 			{
 				if(hUnit->DoFoundationTrade())
 				{
-					bAction = true;
+					bAction = false;
+					bDelete = true;
+					hUnit->SetMissionTimer(0);
+					hUnit->setMoves(0);
 				}
 			}
 			else if(pkQueueData->eMissionType == CvTypes::getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP())
 			{
 				if(hUnit->DoPickUpTraderSupplies())
 				{
-					bAction = true;
+					bAction = false;
+					bDelete = true;
+					hUnit->SetMissionTimer(0);
+					hUnit->setMoves(0);
+				}
+			}
+			else if(pkQueueData->eMissionType == CvTypes::getMISSION_FOUNDATION_TRADE_SUPPLY_REPORT())
+			{
+				if(hUnit->DoTraderSupplyReport())
+				{
+					bAction = false;
+					bDelete = true;
+					hUnit->SetMissionTimer(0);
 				}
 			}
 

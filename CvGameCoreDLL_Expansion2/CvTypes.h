@@ -75,6 +75,7 @@ const MissionTypes getMISSION_CHANGE_ADMIRAL_PORT();
 // FoundationMod
 const MissionTypes getMISSION_FOUNDATION_TRADE();
 const MissionTypes getMISSION_FOUNDATION_DEPOT_SUPPLY_PICKUP();
+const MissionTypes getMISSION_FOUNDATION_TRADE_SUPPLY_REPORT();
 
 const unsigned int getNUM_MISSION_TYPES();
 
