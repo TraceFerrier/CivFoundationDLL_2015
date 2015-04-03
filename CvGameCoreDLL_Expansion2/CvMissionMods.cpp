@@ -6,7 +6,21 @@
 
 const int MaxTradingSuppliesCarried = 25;
 const int MaxTradingSuppliesAtDepot = 50;
+const int ExtraSuppliesPerEra = 10;
 
+int CvUnit::GetMaxTradingSuppliesCarried()
+{
+	int maxSupplies = MaxTradingSuppliesCarried;
+	maxSupplies += ExtraSuppliesPerEra * GET_TEAM(getTeam()).GetCurrentEra();
+	return maxSupplies;
+}
+
+int CvPlot::GetMaxTradingSuppliesAtDepot()
+{
+	int maxSupplies = MaxTradingSuppliesAtDepot;
+	maxSupplies += ExtraSuppliesPerEra * GET_TEAM(getTeam()).GetCurrentEra();
+	return maxSupplies;
+}
 
 bool CvUnit::IsTradingModActive() const
 {
@@ -32,7 +46,7 @@ bool CvUnit::canDoSupplyReport(const CvPlot* pPlot, bool bTestVisible) const
 	return true;
 }
 
-bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible) const
+bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible)
 {
 	if (IsTradingModActive() == false)
 	{
@@ -49,7 +63,7 @@ bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible) const
 
 
 		// Can't do the mission if this unit is carrying all the supplies it can
-		if (m_iTraderSuppliesLoaded >= MaxTradingSuppliesCarried)
+		if (m_iTraderSuppliesLoaded >= GetMaxTradingSuppliesCarried())
 		{
 			return false;
 		}
@@ -111,11 +125,11 @@ bool CvUnit::DoTraderSupplyReport()
 	{
 		if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
 		{
-			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_DEPOT_REPORT", m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried, pPlot->getTraderSuppliesAvailable()));
+			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_DEPOT_REPORT", m_iTraderSuppliesLoaded, GetMaxTradingSuppliesCarried(), pPlot->getTraderSuppliesAvailable()));
 		}
 		else
 		{
-			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_REPORT", m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried));
+			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_REPORT", m_iTraderSuppliesLoaded, GetMaxTradingSuppliesCarried()));
 		}
 	}
 
@@ -134,7 +148,7 @@ bool CvUnit::DoPickUpTraderSupplies()
 		return false;
 	}
 
-	int iSuppliesToLoad = MaxTradingSuppliesCarried - m_iTraderSuppliesLoaded;
+	int iSuppliesToLoad = GetMaxTradingSuppliesCarried() - m_iTraderSuppliesLoaded;
 	if (iSuppliesToLoad > pPlot->getTraderSuppliesAvailable())
 	{
 		iSuppliesToLoad = pPlot->getTraderSuppliesAvailable();
@@ -145,7 +159,7 @@ bool CvUnit::DoPickUpTraderSupplies()
 
 	if(getOwner() == GC.getGame().getActivePlayer())
 	{
-		DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_DEPOT_SUPPLY_PICKUP_RESULT", iSuppliesToLoad, m_iTraderSuppliesLoaded, MaxTradingSuppliesCarried));
+		DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_DEPOT_SUPPLY_PICKUP_RESULT", iSuppliesToLoad, m_iTraderSuppliesLoaded, GetMaxTradingSuppliesCarried()));
 	}
 
 	return true;
@@ -236,6 +250,7 @@ void CvPlot::setTraderSupplies(int iSupplies)
 	m_iTraderSuppliesAvailable = iSupplies;
 }
 
+
 void CvPlot::addTraderSupplies(int iSupplies)
 {
 	if (!IsImprovementPillaged())
@@ -246,9 +261,9 @@ void CvPlot::addTraderSupplies(int iSupplies)
 			m_iTraderSuppliesAvailable = 0;
 		}
 
-		if (m_iTraderSuppliesAvailable > MaxTradingSuppliesAtDepot)
+		if (m_iTraderSuppliesAvailable > GetMaxTradingSuppliesAtDepot())
 		{
-			m_iTraderSuppliesAvailable = MaxTradingSuppliesAtDepot;
+			m_iTraderSuppliesAvailable = GetMaxTradingSuppliesAtDepot();
 		}
 	}
 }

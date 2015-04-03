@@ -697,6 +697,7 @@ public:
 	bool HasWrittenArtifact() const;
 
 	// FoundationMod
+	int GetMaxTradingSuppliesAtDepot();
 	int getTraderSuppliesAvailable() const;
 	void setTraderSupplies(int iSupplies);
 	void addTraderSupplies(int iSupplies);

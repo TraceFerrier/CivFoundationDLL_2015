@@ -16,3 +16,5 @@ const int TradingSuppliesPerTurn = 3;
 ModHandicapTypes GetHandicapType();
 CivilizationTypes GetFoundationCivilizationType();
 ImprovementTypes GetFoundationCustomsHouseType();
+UnitClassTypes GetGreatMerchantUnitClassType();
+UnitTypes GetFoundationTraderType();

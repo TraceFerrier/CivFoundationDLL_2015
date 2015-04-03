@@ -1902,6 +1902,107 @@ CvPlot* CvCityCitizens::GetCityPlotFromIndex(int iIndex) const
 // Specialists
 ///////////////////////////////////////////////////
 
+int CvCityCitizens::GetGreatPersonPointsForSpecialist(UnitClassTypes specialistGreatPeopleUnitClass)
+{
+
+	int iGPPChange = 0;
+	SpecialistTypes eSpecialist = NO_SPECIALIST;
+
+	for(int iSpecialistLoop = 0; iSpecialistLoop < GC.getNumSpecialistInfos(); iSpecialistLoop++)
+	{
+		const SpecialistTypes eLoopSpecialist = static_cast<SpecialistTypes>(iSpecialistLoop);
+		CvSpecialistInfo* pkSpecialistInfo = GC.getSpecialistInfo(eLoopSpecialist);
+		if(pkSpecialistInfo)
+		{
+			if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == specialistGreatPeopleUnitClass)
+			{
+				eSpecialist = eLoopSpecialist;
+				break;
+			}	
+		}
+	}
+
+	if (eSpecialist == NO_SPECIALIST)
+	{
+		return 0;
+	}
+
+	CvSpecialistInfo* pkSpecialistInfo = GC.getSpecialistInfo(eSpecialist);
+	if(pkSpecialistInfo)
+	{
+		int iCount;
+		int iMod;
+		int iGPThreshold = GetSpecialistUpgradeThreshold((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass());
+
+		// Does this Specialist spawn a GP?
+		if(pkSpecialistInfo->getGreatPeopleUnitClass() != NO_UNITCLASS)
+		{
+			iCount = GetSpecialistCount(eSpecialist);
+
+			// GPP from Specialists
+			iGPPChange = pkSpecialistInfo->getGreatPeopleRateChange() * iCount * 100;
+
+			// GPP from Buildings
+			iGPPChange += GetBuildingGreatPeopleRateChanges(eSpecialist) * 100;
+
+			if(iGPPChange > 0)
+			{
+				iMod = 0;
+
+				// City mod
+				iMod += GetCity()->getGreatPeopleRateModifier();
+
+				// Player mod
+				iMod += GetPlayer()->getGreatPeopleRateModifier();
+
+				// Player and Golden Age mods to this specific class
+				if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_SCIENTIST"))
+				{
+					iMod += GetPlayer()->getGreatScientistRateModifier();
+				}
+				else if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_WRITER"))
+				{ 
+					if (GetPlayer()->isGoldenAge())
+					{
+						iMod += GetPlayer()->GetPlayerTraits()->GetGoldenAgeGreatWriterRateModifier();
+					}
+					iMod += GetPlayer()->getGreatWriterRateModifier();
+				}
+				else if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_ARTIST"))
+				{
+					if (GetPlayer()->isGoldenAge())
+					{
+						iMod += GetPlayer()->GetPlayerTraits()->GetGoldenAgeGreatArtistRateModifier();
+					}
+					iMod += GetPlayer()->getGreatArtistRateModifier();
+				}
+				else if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_MUSICIAN"))
+				{
+					if (GetPlayer()->isGoldenAge())
+					{
+						iMod += GetPlayer()->GetPlayerTraits()->GetGoldenAgeGreatMusicianRateModifier();
+					}
+					iMod += GetPlayer()->getGreatMusicianRateModifier();
+				}
+				else if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_MERCHANT"))
+				{
+					iMod += GetPlayer()->getGreatMerchantRateModifier();
+				}
+				else if((UnitClassTypes)pkSpecialistInfo->getGreatPeopleUnitClass() == GC.getInfoTypeForString("UNITCLASS_ENGINEER"))
+				{
+					iMod += GetPlayer()->getGreatEngineerRateModifier();
+				}
+
+				// Apply mod
+				iGPPChange *= (100 + iMod);
+				iGPPChange /= 100;
+				iGPPChange /= 100;
+			}
+		}
+	}
+
+	return iGPPChange;
+}
 
 
 /// Called at the end of every turn: Looks at the specialists in this City and levels them up

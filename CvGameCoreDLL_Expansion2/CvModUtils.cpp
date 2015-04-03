@@ -3,6 +3,18 @@
 
 static CivilizationTypes eFoundationType = NO_CIVILIZATION;
 static ImprovementTypes eFoundationCustomsHouseType = NO_IMPROVEMENT;
+static UnitClassTypes eGreatMerchantType = NO_UNITCLASS;
+static UnitTypes eFoundationTraderType = NO_UNIT;
+
+UnitTypes GetFoundationTraderType()
+{
+	if (eFoundationTraderType == NO_UNIT)
+	{
+		eFoundationTraderType = (UnitTypes)GC.getInfoTypeForString("UNIT_FOUNDATION_SCOUT");
+	}
+
+	return eFoundationTraderType;
+}
 
 CivilizationTypes GetFoundationCivilizationType()
 {
@@ -23,6 +35,16 @@ ImprovementTypes GetFoundationCustomsHouseType()
 	}
 
 	return eFoundationCustomsHouseType;
+}
+
+UnitClassTypes GetGreatMerchantUnitClassType()
+{
+	if (eGreatMerchantType == NO_UNITCLASS)
+	{
+		eGreatMerchantType = (UnitClassTypes) GC.getInfoTypeForString("UNITCLASS_MERCHANT");
+	}
+
+	return eGreatMerchantType;
 }
 
 bool IsFoundationCivilizationActiveAndHuman()

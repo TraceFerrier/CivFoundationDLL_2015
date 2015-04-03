@@ -99,6 +99,7 @@ public:
 
 	// Specialists
 	void DoSpecialists();
+	int GetGreatPersonPointsForSpecialist(UnitClassTypes specialistGreatPeopleUnitClass);
 
 	bool IsCanAddSpecialistToBuilding(BuildingTypes eBuilding);
 	void DoAddSpecialistToBuilding(BuildingTypes eBuilding, bool bForced);

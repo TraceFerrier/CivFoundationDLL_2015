@@ -15,7 +15,19 @@ void CvPlayer::UpdateFoundationImprovements()
 			CvPlot* pPlot = GC.getMap().plotByIndex(aiPlots[uiPlotIndex]);
 			if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
 			{
-				pPlot->addTraderSupplies(TradingSuppliesPerTurn);
+				int iTradingSuppliesPerTurn = 0;
+
+				CvCity* pCity = pPlot->getWorkingCity();
+				if (pCity != NULL)
+				{
+					iTradingSuppliesPerTurn = pCity->GetCityCitizens()->GetGreatPersonPointsForSpecialist(GetGreatMerchantUnitClassType());
+				}
+
+				if (iTradingSuppliesPerTurn < 1)
+				{
+					iTradingSuppliesPerTurn = 1;
+				}
+				pPlot->addTraderSupplies(iTradingSuppliesPerTurn);
 			}
 		}
 	}

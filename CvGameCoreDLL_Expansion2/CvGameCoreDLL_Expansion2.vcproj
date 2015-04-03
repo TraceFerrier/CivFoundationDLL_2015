@@ -1522,6 +1522,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CvTacticalAIMods.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CvTraitMods.cpp"
 				>
 			</File>

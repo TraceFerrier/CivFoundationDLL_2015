@@ -867,6 +867,9 @@ private:
 	CvTacticalTarget* GetFirstUnitTarget();
 	CvTacticalTarget* GetNextUnitTarget();
 
+	// FoundationMod
+	void IdentifyBarbarianPriorityTargetsByType();
+
 	// Routines to execute a mission
 	void ExecuteBarbarianCampMove(CvPlot* pTargetPlot);
 	void ExecuteCivilianCapture(CvPlot* pTargetPlot);

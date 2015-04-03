@@ -342,8 +342,9 @@ public:
 	bool canTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 
 	// FoundationMod 
+	int GetMaxTradingSuppliesCarried();
 	bool canDoSupplyReport(const CvPlot* pPlot, bool bTestVisible = false) const;
-	bool canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible = false) const;
+	bool canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible = false);
 	bool IsTradingModActive() const;
 	bool canDoFoundationTrade(const CvPlot* pPlot, bool bTestVisible = false) const;
 	bool IsInCapitalCity() const;
@@ -352,6 +353,7 @@ public:
 	bool DoTraderSupplyReport();
 	int getFoundationTradeGold(const CvPlot* /*pPlot*/) const;
 	int getFoundationTradeInfluence(const CvPlot* pPlot) const;
+	int GetTraderSuppliesLoaded() { return m_iTraderSuppliesLoaded; }
 	int m_iTraderSuppliesLoaded;
 
 	bool trade();
