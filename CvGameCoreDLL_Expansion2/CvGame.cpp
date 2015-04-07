@@ -384,6 +384,7 @@ bool CvGame::init2()
 {
 	// FoundationMod
 	InitTraitMods();
+	InitUnitMods();
 	InitBuildingMods();
 	InitPromotionMods();
 	InitImprovementMods();

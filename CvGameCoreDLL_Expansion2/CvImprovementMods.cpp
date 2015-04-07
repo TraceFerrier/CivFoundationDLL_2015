@@ -21,25 +21,25 @@ void CvImprovementEntry::ApplyImprovementMods()
 	ModHandicapTypes handicap = GetHandicapType();
 	if (handicap == eDeity)
 	{
-		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 12);
+		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 10);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_CULTURE", 3);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE", "YIELD_GOLD", 8);
 	}
 	else if (handicap == eImmortal)
 	{
-		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 10);
+		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 8);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_CULTURE", 2);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE", "YIELD_GOLD", 6);
 	}
 	else if (handicap == eEmperor)
 	{
-		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 8);
+		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 6);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_CULTURE", 1);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE", "YIELD_GOLD", 4);
 	}
 	else
 	{
-		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 6);
+		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 4);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_ACADEMY", "YIELD_CULTURE", 1);
 		SetImprovementYieldChange("IMPROVEMENT_FOUNDATION_CUSTOMS_HOUSE", "YIELD_GOLD", 3);
 	}

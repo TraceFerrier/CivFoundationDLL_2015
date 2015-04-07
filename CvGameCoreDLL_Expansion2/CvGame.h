@@ -59,6 +59,7 @@ public:
 
 	// FoundationMod
 	void InitTraitMods();
+	void InitUnitMods();
 	void InitBuildingMods();
 	void InitPromotionMods();
 	void InitImprovementMods();

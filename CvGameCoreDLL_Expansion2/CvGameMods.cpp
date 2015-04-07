@@ -12,6 +12,19 @@ void CvGame::InitTraitMods()
 	}
 }
 
+void CvGame::InitUnitMods()
+{
+	for(int iLoop = 0; iLoop < GC.getNumUnitInfos(); iLoop++)
+	{
+		UnitTypes eUnitType = (UnitTypes)iLoop;
+		CvUnitEntry* pUnitEntry = GC.getUnitInfo(eUnitType);
+		if(pUnitEntry)
+		{
+			pUnitEntry->InitUnitMods();
+		}
+	}
+}
+
 void CvGame::InitPromotionMods()
 {
 	for(int iLoop = 0; iLoop < GC.getNumPromotionInfos(); iLoop++)

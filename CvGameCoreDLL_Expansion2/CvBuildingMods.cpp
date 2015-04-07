@@ -35,17 +35,28 @@ bool SetBuildingYieldChange(const char* strBuildingType, const char* strYieldTyp
 
 void CvGame::InitBuildingMods()
 {
+	// First allow each CvBuildingEntry to customize itself
+	for(int iLoop = 0; iLoop < GC.getNumBuildingInfos(); iLoop++)
+	{
+		BuildingTypes eBuildingType = (BuildingTypes)iLoop;
+		CvBuildingEntry* pBuildingEntry = GC.getBuildingInfo(eBuildingType);
+		if (pBuildingEntry)
+		{
+			pBuildingEntry->InitBuildingMods();
+		}
+	}
+
 	ModHandicapTypes handicap = GetHandicapType();
 	if (handicap == eDeity)
 	{
 		SetBuildingYieldModifier("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 15);
-		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 25);
+		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 20);
 		SetBuildingYieldModifier("BUILDING_FOUNDATION_WORKSHOP", "YIELD_FAITH", 15 );
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_PRODUCTION", 15 );
-		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 25 );
+		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 20 );
 
-		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 6);
-		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_CULTURE", 6);
+		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 5);
+		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_CULTURE", 5);
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_PRODUCTION", 2);
 		SetBuildingYieldChange("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 6);
 		SetBuildingYieldChange("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_FOOD", 1);
@@ -57,10 +68,10 @@ void CvGame::InitBuildingMods()
 	else if (handicap == eImmortal)
 	{
 		SetBuildingYieldModifier("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 15);
-		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 20);
+		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 15);
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_FAITH", 15 );
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_PRODUCTION", 15 );
-		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 25 );
+		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 15 );
 
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 5);
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_CULTURE", 4);
@@ -75,10 +86,10 @@ void CvGame::InitBuildingMods()
 	else if (handicap == eEmperor)
 	{
 		SetBuildingYieldModifier("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 10);
-		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 15);
+		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 10);
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_FAITH", 15 );
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_PRODUCTION", 15 );
-		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 25 );
+		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 10 );
 
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 4);
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_CULTURE", 2);
@@ -93,10 +104,10 @@ void CvGame::InitBuildingMods()
 	else
 	{
 		SetBuildingYieldModifier("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 10);
-		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 15);
+		SetBuildingYieldModifier("BUILDING_SECOND_FOUNDATION_ACADEMY", "YIELD_SCIENCE", 10);
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_FAITH", 15 );
 		SetBuildingYieldModifier("BUILDING_GALACTIC_TEMPLE", "YIELD_PRODUCTION", 15 );
-		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 15 );
+		SetBuildingYieldModifier("BUILDING_FOUNDATION_MARKET", "YIELD_GOLD", 10 );
 
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_SCIENCE", 3);
 		SetBuildingYieldChange("BUILDING_GALACTIC_LIBRARY", "YIELD_CULTURE", 1);
@@ -123,6 +134,89 @@ void CvBuildingEntry::SetYieldChange(int i, int change)
 	if (m_piYieldChange != NULL && i < NUM_YIELD_TYPES && i > -1)
 	{
 		m_piYieldChange[i] = change;
+	}
+}
+
+void CvBuildingEntry::InitBuildingMods()
+{
+	const char* strType = GetType();
+
+	// Foundation Market mods
+	if (strcmp(strType, "BUILDING_FOUNDATION_MARKET") == 0)
+	{
+		ModHandicapTypes handicap = GetHandicapType();
+		if (handicap == eDeity)
+		{
+			m_iGreatPeopleRateChange = 5;
+		}
+		else if (handicap == eImmortal)
+		{
+			m_iGreatPeopleRateChange = 4;
+		}
+		else if (handicap == eEmperor)
+		{
+			m_iGreatPeopleRateChange = 3;
+		}
+		else if (handicap == eKing)
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
+		else
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
+	}
+	
+	// Workshop mods
+	else if (strcmp(strType, "BUILDING_FOUNDATION_WORKSHOP") == 0)
+	{
+		ModHandicapTypes handicap = GetHandicapType();
+		if (handicap == eDeity)
+		{
+			m_iGreatPeopleRateChange = 3;
+		}
+		else if (handicap == eImmortal)
+		{
+			m_iGreatPeopleRateChange = 3;
+		}
+		else if (handicap == eEmperor)
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
+		else if (handicap == eKing)
+		{
+			m_iGreatPeopleRateChange = 1;
+		}
+		else
+		{
+			m_iGreatPeopleRateChange = 1;
+		}
+	}
+
+	// Workshop mods
+	else if (strcmp(strType, "BUILDING_SECOND_FOUNDATION_ACADEMY") == 0)
+	{
+		ModHandicapTypes handicap = GetHandicapType();
+		if (handicap == eDeity)
+		{
+			m_iGreatPeopleRateChange = 3;
+		}
+		else if (handicap == eImmortal)
+		{
+			m_iGreatPeopleRateChange = 3;
+		}
+		else if (handicap == eEmperor)
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
+		else if (handicap == eKing)
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
+		else
+		{
+			m_iGreatPeopleRateChange = 2;
+		}
 	}
 }
 

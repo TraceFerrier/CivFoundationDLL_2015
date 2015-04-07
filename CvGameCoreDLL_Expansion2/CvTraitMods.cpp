@@ -17,42 +17,42 @@ void CvTraitEntry::ApplyTraitMods()
 	{
 		if (handicap == eDeity)
 		{
-			m_iGreatScientistRateModifier = 30;
-			m_iTradeRouteResourceModifier = 20;
-			m_iLandTradeRouteRangeBonus = 4;
+			m_iGreatScientistRateModifier = 25;
+			m_iTradeRouteResourceModifier = 10;
+			m_iLandTradeRouteRangeBonus = 3;
 			m_iTradeReligionModifier = 20;
 			m_iPopulationUnhappinessModifier = -20;
 			m_iWonderProductionModifier = 20;
-			m_iExtraFoundedCityTerritoryClaimRange = 6;
-			m_iCityStateFriendshipModifier = 15;
+			m_iExtraFoundedCityTerritoryClaimRange = 5;
+			m_iCityStateFriendshipModifier = 10;
 		}
 		else if (handicap == eImmortal)
 		{
 			m_iGreatScientistRateModifier = 20;
-			m_iTradeRouteResourceModifier = 15;
-			m_iLandTradeRouteRangeBonus = 3;
+			m_iTradeRouteResourceModifier = 5;
+			m_iLandTradeRouteRangeBonus = 2;
 			m_iTradeReligionModifier = 15;
 			m_iPopulationUnhappinessModifier = -15;
 			m_iWonderProductionModifier = 15;
-			m_iExtraFoundedCityTerritoryClaimRange = 5;
-			m_iCityStateFriendshipModifier = 10;
+			m_iExtraFoundedCityTerritoryClaimRange = 4;
+			m_iCityStateFriendshipModifier = 5;
 		}
 		else if (handicap == eEmperor)
 		{
 			m_iGreatScientistRateModifier = 15;
-			m_iTradeRouteResourceModifier = 10;
-			m_iLandTradeRouteRangeBonus = 2;
+			m_iTradeRouteResourceModifier = 0;
+			m_iLandTradeRouteRangeBonus = 1;
 			m_iTradeReligionModifier = 10;
 			m_iPopulationUnhappinessModifier = -10;
 			m_iWonderProductionModifier = 10;
 			m_iExtraFoundedCityTerritoryClaimRange = 3;
-			m_iCityStateFriendshipModifier = 5;
+			m_iCityStateFriendshipModifier = 0;
 		}
 		else if (handicap == eKing)
 		{
 			m_iGreatScientistRateModifier = 10;
-			m_iTradeRouteResourceModifier = 5;
-			m_iLandTradeRouteRangeBonus = 1;
+			m_iTradeRouteResourceModifier = 0;
+			m_iLandTradeRouteRangeBonus = 0;
 			m_iTradeReligionModifier = 5;
 			m_iPopulationUnhappinessModifier = -5;
 			m_iWonderProductionModifier = 5;
@@ -87,7 +87,7 @@ void CvTraitEntry::ApplyTraitMods()
 		if (handicap == eDeity)
 		{
 			m_piMovesChangeUnitCombats[eCivilianUnitCombat] = 2;
-			m_piMovesChangeUnitCombats[eMeleeUnitCombat] = 2;
+			m_piMovesChangeUnitCombats[eMeleeUnitCombat] = 1;
 			m_piMovesChangeUnitCombats[eMountedUnitCombat] = 2;
 			m_piMovesChangeUnitCombats[eArcherUnitCombat] = 2;
 			m_piMovesChangeUnitCombats[eGunUnitCombat] = 2;
@@ -98,7 +98,7 @@ void CvTraitEntry::ApplyTraitMods()
 		else if (handicap == eImmortal)
 		{
 			m_piMovesChangeUnitCombats[eCivilianUnitCombat] = 2;
-			m_piMovesChangeUnitCombats[eMeleeUnitCombat] = 2;
+			m_piMovesChangeUnitCombats[eMeleeUnitCombat] = 1;
 			m_piMovesChangeUnitCombats[eMountedUnitCombat] = 1;
 			m_piMovesChangeUnitCombats[eArcherUnitCombat] = 1;
 			m_piMovesChangeUnitCombats[eGunUnitCombat] = 1;

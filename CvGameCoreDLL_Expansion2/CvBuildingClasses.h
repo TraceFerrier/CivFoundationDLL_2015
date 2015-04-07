@@ -84,6 +84,7 @@ public:
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 
 	// FoundationMods
+	void InitBuildingMods();
 	void SetYieldModifier(int i, int iModifier);
 	void SetYieldChange(int i, int change);
 

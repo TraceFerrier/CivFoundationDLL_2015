@@ -5,6 +5,7 @@ static CivilizationTypes eFoundationType = NO_CIVILIZATION;
 static ImprovementTypes eFoundationCustomsHouseType = NO_IMPROVEMENT;
 static UnitClassTypes eGreatMerchantType = NO_UNITCLASS;
 static UnitTypes eFoundationTraderType = NO_UNIT;
+static UnitTypes eFoundationScientistType = NO_UNIT;
 
 UnitTypes GetFoundationTraderType()
 {
@@ -14,6 +15,16 @@ UnitTypes GetFoundationTraderType()
 	}
 
 	return eFoundationTraderType;
+}
+
+UnitTypes GetFoundationScientistType()
+{
+	if (eFoundationScientistType == NO_UNIT)
+	{
+		eFoundationScientistType = (UnitTypes)GC.getInfoTypeForString("UNIT_FOUNDATION_SCIENTIST");
+	}
+
+	return eFoundationScientistType;
 }
 
 CivilizationTypes GetFoundationCivilizationType()
@@ -27,7 +38,7 @@ CivilizationTypes GetFoundationCivilizationType()
 }
 
 
-ImprovementTypes GetFoundationCustomsHouseType()
+ImprovementTypes GetFoundationTradingDepotType()
 {
 	if (eFoundationCustomsHouseType == NO_IMPROVEMENT)
 	{

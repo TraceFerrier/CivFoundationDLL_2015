@@ -56,7 +56,7 @@ bool CvUnit::canDoSupplyPickup(const CvPlot* pPlot, bool bTestVisible)
 	// Things that block usage but not visibility
 	if(!bTestVisible)
 	{
-		if (!pPlot->getImprovementType() == GetFoundationCustomsHouseType())
+		if (!pPlot->getImprovementType() == GetFoundationTradingDepotType())
 		{
 			return false;
 		}
@@ -123,7 +123,7 @@ bool CvUnit::DoTraderSupplyReport()
 
 	if(getOwner() == GC.getGame().getActivePlayer())
 	{
-		if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
+		if (pPlot->getImprovementType() == GetFoundationTradingDepotType())
 		{
 			DLLUI->AddUnitMessage(0, GetIDInfo(), getOwner(), true, GC.getEVENT_MESSAGE_TIME(), GetLocalizedText("TXT_KEY_FOUNDATION_SUPPLY_DEPOT_REPORT", m_iTraderSuppliesLoaded, GetMaxTradingSuppliesCarried(), pPlot->getTraderSuppliesAvailable()));
 		}
@@ -208,7 +208,7 @@ int CvUnit::getFoundationTradeGold(const CvPlot* /*pPlot*/) const
 	int iGold;
 
 	// Seed the gold Value with some cash
-	iGold = m_iTraderSuppliesLoaded;
+	iGold = m_iTraderSuppliesLoaded * 2;
 
 	// Amount of Gold also increases with how far into the game we are
 	iGold += (m_pUnitInfo->GetNumGoldPerEra() * GET_TEAM(getTeam()).GetCurrentEra());
@@ -230,7 +230,7 @@ int CvUnit::getFoundationTradeInfluence(const CvPlot* pPlot) const
 		CvAssertMsg(eMinor != NO_PLAYER, "Performing a trade mission and not in city state territory. This is bad. Please send Jon this with your last 5 autosaves and what changelist # you're playing.");
 		if (eMinor != NO_PLAYER)
 		{
-			iInf = m_iTraderSuppliesLoaded;
+			iInf = m_iTraderSuppliesLoaded / 2;
 			int iInfTimes100 = iInf * (100 + GetTradeMissionInfluenceModifier());
 			iInf = iInfTimes100 / 100;
 		}
@@ -253,9 +253,15 @@ void CvPlot::setTraderSupplies(int iSupplies)
 
 void CvPlot::addTraderSupplies(int iSupplies)
 {
+	int iSuppliesThisTurn = iSupplies;
+	if (iSuppliesThisTurn > GetMaxTradingSuppliesAtDepot() / 4)
+	{
+		iSuppliesThisTurn = GetMaxTradingSuppliesAtDepot() / 4;
+	}
+
 	if (!IsImprovementPillaged())
 	{
-		m_iTraderSuppliesAvailable += iSupplies;
+		m_iTraderSuppliesAvailable += iSuppliesThisTurn;
 		if (m_iTraderSuppliesAvailable < 0)
 		{
 			m_iTraderSuppliesAvailable = 0;

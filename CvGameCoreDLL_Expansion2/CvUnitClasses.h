@@ -27,6 +27,9 @@ public:
 
 	virtual bool CacheResults(Database::Results& kResults, CvDatabaseUtility& kUtility);
 
+	// FoundationMod
+	void InitUnitMods();
+
 	// Accessor Functions (Non-Arrays)
 	int GetProductionCost() const;
 	int GetFaithCost() const;

@@ -5698,22 +5698,22 @@ void CvTacticalAI::IdentifyPriorityBarbarianTargets()
 			{
 				bool bPriorityTarget = false;
 
+				CvPlot* pPlot = GC.getMap().plot(pTarget->GetTargetX(), pTarget->GetTargetY());
+				UnitHandle pEnemyUnit = pPlot->getVisibleEnemyDefender(m_pPlayer->GetID());
+
+				// FoundationMod
+				if (pEnemyUnit->getUnitType() == GetFoundationTraderType())
+				{
+					if (pEnemyUnit->GetTraderSuppliesLoaded() > 0)
+					{
+						m_AllTargets[iI].SetTargetType(AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT);
+					}
+				}
+
 				// Skip if already a priority target (because was able to strike another camp)
 				if(pTarget->GetTargetType() != AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT)
 				{
-					CvPlot* pPlot = GC.getMap().plot(pTarget->GetTargetX(), pTarget->GetTargetY());
-					UnitHandle pEnemyUnit = pPlot->getVisibleEnemyDefender(m_pPlayer->GetID());
-
-					// FoundationMod
-					if (pEnemyUnit->getUnitType() == GetFoundationTraderType())
-					{
-						if (pEnemyUnit->GetTraderSuppliesLoaded() > 0)
-						{
-							m_AllTargets[iI].SetTargetType(AI_TACTICAL_TARGET_HIGH_PRIORITY_UNIT);
-						}
-					}
-
-					else if(pEnemyUnit->IsCanAttackRanged() && pEnemyUnit->GetMaxRangedCombatStrength(NULL, /*pCity*/ NULL, true, true) > pEnemyUnit->GetMaxAttackStrength(NULL, pLoopPlot, NULL))
+					if(pEnemyUnit->IsCanAttackRanged() && pEnemyUnit->GetMaxRangedCombatStrength(NULL, /*pCity*/ NULL, true, true) > pEnemyUnit->GetMaxAttackStrength(NULL, pLoopPlot, NULL))
 					{
 						if(plotDistance(pEnemyUnit->getX(), pEnemyUnit->getY(), pLoopPlot->getX(), pLoopPlot->getY()) <= pEnemyUnit->GetRange())
 						{

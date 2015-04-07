@@ -12,8 +12,11 @@ void CvPlayer::UpdateFoundationImprovements()
 			if (aiPlots[uiPlotIndex] == -1)
 				continue;
 
+			// For the Foundation Trading Depot, add supplies each turn, based on
+			// the number of Merchant specialist points currently being generated
+			// per turn in the city hosting the depot.
 			CvPlot* pPlot = GC.getMap().plotByIndex(aiPlots[uiPlotIndex]);
-			if (pPlot->getImprovementType() == GetFoundationCustomsHouseType())
+			if (pPlot->getImprovementType() == GetFoundationTradingDepotType())
 			{
 				int iTradingSuppliesPerTurn = 0;
 
