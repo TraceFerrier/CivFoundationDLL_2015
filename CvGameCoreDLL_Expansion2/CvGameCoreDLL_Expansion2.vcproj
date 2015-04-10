@@ -42,9 +42,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/EHsc"
-				Optimization="0"
+				Optimization="3"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)CvWorldBuilderMap\include\&quot;;&quot;$(SolutionDir)CvGameCoreDLLUtil\include\&quot;;&quot;$(SolutionDir)CvLocalization\include\&quot;;&quot;$(SolutionDir)CvGameDatabase\include\&quot;;&quot;$(SolutionDir)FirePlace\include\&quot;;&quot;$(SolutionDir)FirePlace\include\FireWorks\&quot;;&quot;$(SolutionDir)ThirdPartyLibs\Lua51\include\&quot;"

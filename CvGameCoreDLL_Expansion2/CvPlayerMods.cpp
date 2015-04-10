@@ -26,9 +26,9 @@ void CvPlayer::UpdateFoundationImprovements()
 					iTradingSuppliesPerTurn = pCity->GetCityCitizens()->GetGreatPersonPointsForSpecialist(GetGreatMerchantUnitClassType());
 				}
 
-				if (iTradingSuppliesPerTurn < 1)
+				if (iTradingSuppliesPerTurn < 5)
 				{
-					iTradingSuppliesPerTurn = 1;
+					iTradingSuppliesPerTurn = 5;
 				}
 				pPlot->addTraderSupplies(iTradingSuppliesPerTurn);
 			}
